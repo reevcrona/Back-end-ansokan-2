@@ -12,6 +12,8 @@ const toggleInput = document.querySelector(".toggle");
 
 const containers = document.querySelectorAll(".left-side");
 
+let isReadMoreClicked = false;
+
 let activeIndex = 0;
 const totalContainers = 5;
 const containerWidth = document.querySelector('.left-side').offsetHeight;
@@ -20,6 +22,7 @@ const containerWidth = document.querySelector('.left-side').offsetHeight;
 läsMerButtons.forEach((button) => {
     button.addEventListener("click", () => {
         fullScreen()
+        isReadMoreClicked = true;
     })
 })
 
@@ -33,14 +36,13 @@ function fullScreen(){
     rightSideContainer.style.width = "100%"
     arrowsContainer.style.transition = "opacity 0.5s ease-out"
     arrowsContainer.style.opacity ="0";
-    contentContainer.style.overflow = "visible"
+    
     
     window.removeEventListener("wheel",handleScroll);
 
     setTimeout(() => {
         containers.forEach((container) => {
             container.style.display ="none";
-
         })
 
         textContainers.forEach((text,index) => {
@@ -53,7 +55,7 @@ function fullScreen(){
                 },600)
             }
         })
-
+        contentContainer.style.overflow = "visible"
         contentContainer.classList.add("full-screen")
         topContainer.style.display ="flex"
     },1000)
@@ -83,6 +85,8 @@ function splitScreen(){
     topContainer.style.display ="none"
 
     window.addEventListener("wheel",handleScroll)
+    arrowUp.addEventListener("click", handleClickUp);
+    arrowDown.addEventListener("click", handleClickDown);
    
     containers.forEach((container) => {
         container.style.display ="flex";
@@ -119,11 +123,17 @@ function handleClickUp(){
     arrowUp.removeEventListener("click", handleClickUp);
     window.removeEventListener("wheel",handleScroll)
 
-    setTimeout(() => {
-        arrowUp.addEventListener("click", handleClickUp);
-        arrowDown.addEventListener("click", handleClickDown);
-        window.addEventListener("wheel",handleScroll)
-    },1500)
+    if(isReadMoreClicked){
+        isReadMoreClicked = false;
+        return;
+    }else{
+        setTimeout(() => {
+            arrowUp.addEventListener("click", handleClickUp);
+            arrowDown.addEventListener("click", handleClickDown);
+            window.addEventListener("wheel",handleScroll)
+        },1500)
+    }
+    
 
     activeIndex = (activeIndex - 1 + totalContainers) % totalContainers;
     updateLeftContainers();
@@ -135,26 +145,40 @@ function handleClickDown(){
     arrowUp.removeEventListener("click", handleClickUp);
     window.removeEventListener("wheel",handleScroll)
 
-    setTimeout(() => {
-        arrowDown.addEventListener("click", handleClickDown);
-        arrowUp.addEventListener("click", handleClickUp);
-        window.addEventListener("wheel",handleScroll)
-    },1500)
+    if(isReadMoreClicked){
+        isReadMoreClicked = false;
+        return;
+    }else{
+        setTimeout(() => {
+            arrowDown.addEventListener("click", handleClickDown);
+            arrowUp.addEventListener("click", handleClickUp);
+            window.addEventListener("wheel",handleScroll)
+        },1500)
+    }
+    
     activeIndex = (activeIndex + 1) % totalContainers;
     updateLeftContainers();
     updateRightContainers();
 }
 
 function handleScroll(event){
+    
+    
     window.removeEventListener("wheel",handleScroll)
     arrowDown.removeEventListener("click",handleClickDown);
     arrowUp.removeEventListener("click", handleClickUp);
 
-    setTimeout(() => {
-        window.addEventListener("wheel",handleScroll)
-        arrowDown.addEventListener("click", handleClickDown);
-        arrowUp.addEventListener("click", handleClickUp);
-    },1500)
+    if(isReadMoreClicked){
+        isReadMoreClicked = false;
+        return;
+    }else{
+        setTimeout(() => {
+            window.addEventListener("wheel",handleScroll)
+            arrowDown.addEventListener("click", handleClickDown);
+            arrowUp.addEventListener("click", handleClickUp);
+        },1500)
+    }
+    
 
     if(event.deltaY > 0){
         console.log("scrolling down")
@@ -166,9 +190,15 @@ function handleScroll(event){
 
         updateLeftContainers();
         updateRightContainers();
+    }
+    
+
+
+function removeAllListeners(){
+    window.removeEventListener("wheel",handleScroll)
+    arrowDown.removeEventListener("click",handleClickDown);
+    arrowUp.removeEventListener("click", handleClickUp);
 }
-
-
 
 arrowUp.addEventListener("click",handleClickUp)
 arrowDown.addEventListener("click",handleClickDown)
