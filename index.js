@@ -117,11 +117,12 @@ function splitScreen(){
 function handleClickUp(){
     arrowDown.removeEventListener("click",handleClickDown);
     arrowUp.removeEventListener("click", handleClickUp);
-    
+    window.removeEventListener("wheel",handleScroll)
 
     setTimeout(() => {
         arrowUp.addEventListener("click", handleClickUp);
         arrowDown.addEventListener("click", handleClickDown);
+        window.addEventListener("wheel",handleScroll)
     },1500)
 
     activeIndex = (activeIndex - 1 + totalContainers) % totalContainers;
@@ -132,10 +133,12 @@ function handleClickUp(){
 function handleClickDown(){
     arrowDown.removeEventListener("click",handleClickDown);
     arrowUp.removeEventListener("click", handleClickUp);
+    window.removeEventListener("wheel",handleScroll)
 
     setTimeout(() => {
         arrowDown.addEventListener("click", handleClickDown);
         arrowUp.addEventListener("click", handleClickUp);
+        window.addEventListener("wheel",handleScroll)
     },1500)
     activeIndex = (activeIndex + 1) % totalContainers;
     updateLeftContainers();
@@ -144,9 +147,13 @@ function handleClickDown(){
 
 function handleScroll(event){
     window.removeEventListener("wheel",handleScroll)
+    arrowDown.removeEventListener("click",handleClickDown);
+    arrowUp.removeEventListener("click", handleClickUp);
 
     setTimeout(() => {
         window.addEventListener("wheel",handleScroll)
+        arrowDown.addEventListener("click", handleClickDown);
+        arrowUp.addEventListener("click", handleClickUp);
     },1500)
 
     if(event.deltaY > 0){
