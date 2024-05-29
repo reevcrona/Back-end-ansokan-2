@@ -4,7 +4,7 @@ body{
     box-sizing: border-box;
     height: 100vh;
     width: 100%;
-    font-family: "Signika Negative";
+    font-family: "Signika Negative",sans-serif;
     background-color: #F0EDEE;
     
 }
@@ -38,7 +38,7 @@ body{
 }
 
 h2{
-    font-family: "Zilla Slab";
+    font-family: "Zilla Slab",sans-serif;
     font-size: 2.5rem;
     font-weight: 1000;
     margin: 0.4em 0 0.8em 0;
@@ -146,7 +146,7 @@ button{
     border: 2px solid black;
     border-radius: 2px;
     z-index: 1;
-    font-family: "Signika Negative";
+    font-family: "Signika Negative",sans-serif;
 
    
 }
@@ -266,17 +266,17 @@ background-color: #333333;
     margin-left: 1.4em;
 }
 .odin-header{
-    font-family: "Zilla Slab";
+    font-family: "Zilla Slab",sans-serif;
     letter-spacing: 2px; 
     text-transform: uppercase;
     color: black; 
 }
 .codecamp-header{
-    font-family: "Montserrat";
+    font-family: "Montserrat",sans-serif;
     font-weight: 600;
 }
 .scrimba-header{
-    font-family: "Lato";
+    font-family: "Lato",sans-serif;
     font-weight: 600;
 }
 .kurser-p{

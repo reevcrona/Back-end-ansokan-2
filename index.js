@@ -35,7 +35,8 @@ function fullScreen(){
     arrowsContainer.style.opacity ="0";
     contentContainer.style.overflow = "visible"
     
-    
+    window.removeEventListener("wheel",handleScroll);
+
     setTimeout(() => {
         containers.forEach((container) => {
             container.style.display ="none";
@@ -80,6 +81,8 @@ function splitScreen(){
     contentContainer.style.overflow = "hidden"
     
     topContainer.style.display ="none"
+
+    window.addEventListener("wheel",handleScroll)
    
     containers.forEach((container) => {
         container.style.display ="flex";
@@ -139,7 +142,24 @@ function handleClickDown(){
     updateRightContainers();
 }
 
+function handleScroll(event){
+    window.removeEventListener("wheel",handleScroll)
 
+    setTimeout(() => {
+        window.addEventListener("wheel",handleScroll)
+    },1500)
+
+    if(event.deltaY > 0){
+        console.log("scrolling down")
+        activeIndex = (activeIndex + 1) % totalContainers;
+    }else{
+        console.log("scorlling up")
+        activeIndex = (activeIndex - 1 + totalContainers) % totalContainers;
+    }
+
+        updateLeftContainers();
+        updateRightContainers();
+}
 
 
 
@@ -249,7 +269,8 @@ function updateRightContainers(){
 
 
 
-    
+window.addEventListener('wheel',handleScroll)
+     
 
 
 
